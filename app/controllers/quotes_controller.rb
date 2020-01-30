@@ -1,11 +1,19 @@
 class QuotesController < ApplicationController
-
+before_action :authenticate_user!, only: [:create, :update, :destroy]
   def index
+    name = params[:name]
+    if params[:name].blank?
       @quotes = Quote.all
       json_response(@quotes)
+    else
+      @parameter = params[:name].downcase
+      @quotes = Quote.all.where("lower(author) ILIKE :search", search: "%#{@parameter}%")
+      json_response(@quotes)
+    end
     end
 
     def show
+      binding.pry
       @quote = Quote.find(params[:id])
       json_response(@quote)
     end
