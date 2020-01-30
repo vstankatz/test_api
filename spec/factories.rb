@@ -1,4 +1,8 @@
 FactoryBot.define do
+  factory :user do
+    
+  end
+
   factory :quote do
     # n.times do
     #   quote = Quote.create!(
