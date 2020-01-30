@@ -18,3 +18,16 @@ describe "post a quote route", :type => :request do
     expect(response).to have_http_status(:created)
   end
 end
+
+describe "failed to post", :type => :request do
+
+  it 'returns a message if the validation fails' do
+    post '/quotes', params: { :author => '', :content => 'test_content' }
+    expect(JSON.parse(response.body)['message']).to eq("Validation failed: Author can't be blank")
+  end
+
+  it 'returns a message if the validation fails' do
+    post '/quotes', params: { :author => 'test_author', :content => '' }
+    expect(JSON.parse(response.body)['message']).to eq("Validation failed: Content can't be blank")
+  end
+end
